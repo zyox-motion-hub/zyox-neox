@@ -1,8 +1,17 @@
 # NeoX for After Effects
 
-**Version 2.10.2** · Windows & macOS · After Effects 2019 (16.0) and newer
+**Version 3.0.1** · Windows & macOS · After Effects 2019 (16.0) and newer
 
-NeoX is a toolset panel for Adobe After Effects: quick offsets and alignment, an ease graph editor, comp tools, copy/paste of properties and expressions, text splitting and styling, an expression helper, and project tools (Media Encoder, Render Queue, Precomp Importer, Find & Replace, a live Storyboard and an asset Organizer). It comes with **NeoX Note**, a small task board with notes, in the same package.
+NeoX is a toolset panel for Adobe After Effects. It covers:
+
+- quick offsets, alignment and layouts (ring, arc, grid);
+- an ease graph editor;
+- comp tools;
+- copy/paste of properties and expressions;
+- text splitting and styling, and an expression helper;
+- project tools: Media Encoder, Render Queue, Precomp Importer, Find & Replace, a live Storyboard and an asset Organizer.
+
+It comes with **NeoX Note**, a small task board with notes, in the same package. From 3.0.0 on, NeoX tells you when a new version is out and installs it for you.
 
 One signed `NeoX.zxp` installs five panels under **Window › Extensions**:
 
@@ -18,7 +27,7 @@ One signed `NeoX.zxp` installs five panels under **Window › Extensions**:
 
 ## Install
 
-1. Download **`NeoX.zxp`** from the [Releases](../../releases) page.
+1. Download **`NeoX.zxp`** from the [Releases](https://github.com/zyox-motion-hub/zyox-neox/releases/latest) page.
 2. Install it with one of these:
    - [aescripts + aeplugins ZXP Installer](https://aescripts.com/learn/zxp-installer/) (free, Windows & macOS), or
    - Anastasiy's Extension Manager, or
@@ -28,11 +37,24 @@ One signed `NeoX.zxp` installs five panels under **Window › Extensions**:
 
 No debug mode or registry changes are needed: the package is signed.
 
-**Updating:** install the new `NeoX.zxp` over the old one and restart After Effects. Your NeoX Note board and settings are kept.
+**Coming from NeoX 2.x or 3.0.0?** Install the latest version over it once, by hand, as above. Your NeoX Note board and settings are kept. After that (3.0.1 and newer), updates come to you inside NeoX. (3.0.0 looked for updates at a wrong address, so it may not tell you about new versions.)
 
-**Coming from an old unsigned copy of NeoX Note?** Delete the folder `%APPDATA%\Adobe\CEP\extensions\NeoX Note` (Windows) or `~/Library/Application Support/Adobe/CEP/extensions/NeoX Note` (macOS) first. Your tasks are stored elsewhere and are not touched.
+**Coming from an old unsigned copy of NeoX Note?** First delete the folder `%APPDATA%\Adobe\CEP\extensions\NeoX Note` (Windows) or `~/Library/Application Support/Adobe/CEP/extensions/NeoX Note` (macOS). Your tasks are stored elsewhere and are not touched.
 
 **Tip:** in *Edit › Preferences › Scripting & Expressions*, turn on **Allow Scripts to Write Files and Access Network**. Storyboard (saving frames) and links in NeoX Note need it.
+
+---
+
+## Updates
+
+NeoX checks this repository for a newer release when the panel opens, then at most every 6 hours.
+
+- When there is one, a banner appears at the top of the panel with the new version number and **What's new**.
+- **Install update** downloads it and installs it with Adobe's own installer, which comes with Creative Cloud. Then restart After Effects.
+- **Later** hides that version for a day.
+- Click the version number next to the NeoX logo to check right away.
+- NeoX only installs packages signed with the NeoX certificate, and only from the latest published release here.
+- If the automatic install isn't possible (for example, no Creative Cloud), **Show file** opens the downloaded `.zxp` so you can install it with ZXP Installer.
 
 ---
 
@@ -48,6 +70,10 @@ The page scrolls with the mouse wheel. Inputs, options, the current tab and the 
 - **Center button**: reset Position · **Alt**: snap the anchor point to the center.
 - **Scale + / −**: scale by *Amount* % (**Shift** = double, **Ctrl/Cmd** = 1 %) · **Reset scale** button.
 - **Flip** vertical / horizontal.
+- **Follow Scale**: select the guide layer first, then the others. Only their **Scale** changes, with proportions kept; parents' Scale is taken into account and keyframed Scale is resized key by key.
+  - **Click: Center Fit**, fit inside the guide's box.
+  - **Right-click → Height Fit**: as tall as the guide (may stick out at the sides).
+  - **Right-click → Width Fit**: as wide as the guide (may stick out above and below).
 - Quick amounts: 10, 20, 50, 100.
 
 **Align**
@@ -55,14 +81,25 @@ The page scrolls with the mouse wheel. Inputs, options, the current tab and the 
 - Left, center, right, top, middle, bottom, absolute center; distribute horizontally / vertically (3+ layers).
 - Uses the visible bounds of each layer, including masks and parented layers.
 
+**Align Form**: arranges the selected layers, in the order you selected them, into a shape. The shape is centred in the comp and kept inside the title-safe area. Layers are only moved: no rotation and no scaling.
+- **Ring**: evenly spaced around a circle, the first layer at 12 o'clock, clockwise. **Radius** = px from the centre (default 600).
+- **Arc**: evenly spaced along the top of a circle, symmetric. **Radius** in px (default 600): smaller = rounder, bigger = flatter.
+- **Grid**: rows and columns, 20 px apart, last row centred. **Rows** = how many rows (default 2).
+- If a radius or gap doesn't fit inside the title-safe area, NeoX adjusts it and says what it used.
+- Double-click Ring / Arc / Grid to apply it directly.
+
 **Graph Editor**
 - **Speed graph** (like After Effects) or **Value graph** for the selected keyframes; drag the handles, **Shift** = 0 speed.
 - Follows the keyframes you select in the timeline.
 - **Copy Ease / Paste Ease**, **Continuous** (lock outgoing velocity to incoming), **Rove Across Time** (Position).
 
 **EasyComp**
-- **True Comp Duplicate**: duplicates the selected comps (or the open comp) with *every* nested precomp **and every asset** (footage, images, audio, image sequences, solids) copied too, so nothing is shared with the original. Each copy goes into the same Project folder as its original. Expressions inside the copies that use `comp("…")` or `footage("…")` are updated to the copies.
-  **Alt + click**: copy the comps only and keep the assets shared.
+- **True Comp Duplicate**: duplicates the selected comps (or the open comp) with *every* nested precomp **and every asset** copied too, so nothing is shared with the original.
+  - Assets include footage, images, audio, image sequences and solids.
+  - Each copy goes into the same Project folder as its original.
+  - Expressions inside the copies that use `comp("…")` or `footage("…")` now point to the copies.
+  - **Alt + click**: copy the comps only and keep the assets shared.
+  - **Shift + click**: opens a small window listing the comp's layers that have a source (precomps, video, images, audio, sequences, solids). Tick the ones that should get their own copy of their source; the comp is duplicated and only those layers are switched to copies (a ticked precomp is copied with everything inside it). Unticked layers keep using the original. *All* / *None*, Shift-click for a range, Enter to duplicate, Esc to cancel.
 - **Complosion**: expand layers to the comp size.
 - **Compfitted**: crop the comp to the layers' bounds, with **Pad** in px.
 - **Note**: opens NeoX Note.
@@ -82,7 +119,10 @@ The page scrolls with the mouse wheel. Inputs, options, the current tab and the 
 
 ### Xpressor tab
 
-- Write an expression (with click-to-insert suggestions such as `wiggle(freq, amp)`, `loopOut()`, `posterizeTime()`), set the **Frequency** / **Amplitude** variables, then **Apply** it to Position, Scale, Rotation, Opacity or to the properties selected in the timeline. **Remove Expression** clears them.
+- Write an expression, with click-to-insert suggestions such as `wiggle(freq, amp)`, `loopOut()` and `posterizeTime()`.
+- Set the **Frequency** / **Amplitude** variables.
+- **Apply** it to Position, Scale, Rotation, Opacity, or to the properties selected in the timeline.
+- **Remove Expression** clears them.
 
 ### Xtra tab
 
@@ -113,7 +153,11 @@ A simple Trello-style board inside After Effects: **Window › Extensions › Ne
 
 - Columns **To Do / Doing / Done** (tabs when the panel is narrow). Add, drag to move or reorder, mark as done, delete with Undo.
 - Right-click a card (or click its color dot) for label color, move, open, delete.
-- Each card has a title, status, **deadline with date and time** (red when overdue, lime today, amber within 48 h), a color label and a **rich-text note**: headings, bold / italic / underline / strike, text and highlight colors, bullet, numbered and check lists, dividers, links, and **images** (paste or drop; resize, place side by side). The first image becomes the card cover.
+- Each card has:
+  - a title, status and color label;
+  - a **deadline with date and time**, shown red when overdue, lime today, amber within 48 h;
+  - a **rich-text note**: headings, bold / italic / underline / strike, text and highlight colors, bullet, numbered and check lists, dividers and links;
+  - **images** in the note: paste or drop, resize, place side by side. The first image becomes the card cover.
 - Markdown-style shortcuts while typing: `-`, `1.`, `[ ]`, `#` + space, `---` + Enter.
 
 ---
@@ -130,17 +174,22 @@ Back up the `NeoX` folder to keep your board.
 
 ---
 
-## Known issues in 2.10.2
-
-- **Storyboard**: the *Start* thumbnail option shows the scene's last frame instead of its first (Middle and End are correct).
-- **True Comp Duplicate** with **Alt**: the message after duplicating can wrongly mention "0 assets"; the duplicate itself is correct.
-
----
-
 ## What's new
 
+**3.0.1**
+- **True Comp Duplicate, Shift + click**: pick which layers get their own copy of their source; the rest keep the original.
+- Fixed: update notifications now check this repository (3.0.0 looked in the wrong place).
+
+**3.0.0**
+- **Update notifications**: NeoX tells you about new versions and installs them for you (see *Updates*).
+- **Align Form** in the Align section: **Ring**, **Arc** and **Grid** layouts with Radius / Rows, centred and kept inside the title-safe area.
+- **Follow Scale** next to Flip: Center Fit (click), Height Fit and Width Fit (right-click); changes Scale only.
+- Fixed: Storyboard's *Start* thumbnail showed the scene's last frame.
+- Fixed: True Comp Duplicate with Alt could mention "0 assets" in its message.
+- Fixed: options with three choices could pick the wrong one in After Effects.
+
 **2.10.2**
-- Organizer: PSD, AI, EPS, PDF, SVG and every other static file go to Images; a PSD / AI imported as a composition moves as one item with its Layers folder; files already inside Images subfolders stay where they are.
+- Organizer: PSD, AI, EPS, PDF, SVG and every other static file go to Images; a PSD / AI imported as a composition moves as one item with its Layers folder.
 
 **2.10.1**
 - True Comp Duplicate copies the assets too (footage, images, audio, sequences, solids), each next to its original. Alt + click keeps them shared.
